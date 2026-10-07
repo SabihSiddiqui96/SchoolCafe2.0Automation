@@ -4,6 +4,7 @@ test-results/
 dist/
 .env
 .env.*
+!.env.example
 .playwright-mcp/
 .rerun-history.json
 

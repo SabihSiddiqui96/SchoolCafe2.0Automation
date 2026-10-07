@@ -1,0 +1,10 @@
+node_modules/
+playwright-report/
+test-results/
+dist/
+.env
+.env.*
+.playwright-mcp/
+.rerun-history.json
+
+.auto-rerun.log

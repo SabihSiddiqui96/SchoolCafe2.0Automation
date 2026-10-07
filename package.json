@@ -1,0 +1,19 @@
+{
+    "name": "schoolcafe2automation",
+    "version": "1.0.0",
+    "description": "SchoolCafe 2.0 automation built with Playwright",
+    "private": true,
+    "type": "commonjs",
+    "scripts": {
+        "test": "npx playwright test",
+        "report:show": "npx playwright show-report"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.59.1",
+        "@types/node": "^25.5.0",
+        "typescript": "^6.0.2"
+    },
+    "dependencies": {
+        "dotenv": "^17.4.0"
+    }
+}

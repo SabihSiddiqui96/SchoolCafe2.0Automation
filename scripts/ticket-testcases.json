@@ -1,0 +1,316 @@
+{
+  "CEU Levels": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → CEU Levels.",
+        "expected": "Page loads with the program year selector and `History`."
+      },
+      {
+        "action": "Read the program years and the four roles.",
+        "expected": "Current year selected by default; roles show their hours; `Edit` only, no `Restore defaults` at defaults."
+      },
+      {
+        "action": "Select the past year.",
+        "expected": "`Edit` is disabled with the locked tooltip."
+      },
+      {
+        "action": "Edit the future year; type a value below, at and above default.",
+        "expected": "Warning appears and clears live; up-arrow shows with its tooltip; `Save` only appears on a change."
+      },
+      {
+        "action": "Type invalid and valid values.",
+        "expected": "0 to 100 in steps of 0.5 accepted; others show the range message and offer no `Save`."
+      },
+      {
+        "action": "Change values and click `Cancel`.",
+        "expected": "Every field reverts and edit mode exits."
+      },
+      {
+        "action": "Change two roles and click `Save`.",
+        "expected": "`Confirm changes` lists the year and only the changed roles; `Confirm` needs a comment; success toast."
+      },
+      {
+        "action": "Click `Edit`.",
+        "expected": "`Restore defaults` is hidden while editing."
+      },
+      {
+        "action": "Click `Restore defaults`, `Cancel`, then again with `Yes, restore defaults`.",
+        "expected": "Slide-out lists only changing roles; defaults return; button disappears."
+      },
+      {
+        "action": "Repeat a save and restore on the current year, reloading after the save.",
+        "expected": "Values persist; restore puts the defaults back."
+      },
+      {
+        "action": "Open `History` and a row.",
+        "expected": "Update and restore entries with the comment; `Changed Value(s)` shows Old and New."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Scroll to `Front Office`, expand `Professional Standards`, then find the page `CEU Levels`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick `View`, `Add` and `Edit` with the CEU Requirements permission off, then click `Save`, wait for the message to go away, and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `CEU Levels` and verify:",
+        "expected": "The page opens and `History` is available; `Edit` and `Restore defaults` are hidden or disabled"
+      },
+      {
+        "action": "Tick only `View`, then save and log in again.",
+        "expected": "Verify the page opens, `History` is available, and `Edit` and `Restore defaults` are hidden or disabled"
+      },
+      {
+        "action": "Turn on the CEU Requirements permission, then save and log in again.",
+        "expected": "Verify `Edit` is available, saving opens `Confirm changes`, and `Restore defaults` shows when a role is off its default"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
+  },
+  "Topics & Sub Topics": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Configuration.",
+        "expected": "`Topics & Sub Topics` is second, after `CEU Levels`."
+      },
+      {
+        "action": "Open Topics & Sub Topics.",
+        "expected": "`History`, search, `Status`, `Hide defaults`, `Add topic` present."
+      },
+      {
+        "action": "Read the default topics and expand `Nutrition`.",
+        "expected": "Four defaults with `Default` badge; sub-topics carry LO code pills; no delete/status/`Add sub-topic` on defaults."
+      },
+      {
+        "action": "Search `1110`, `special diet`, `zzzz`.",
+        "expected": "Matching sub-topic under `Nutrition` (case-insensitive); `No matches` for the last."
+      },
+      {
+        "action": "`Hide defaults` then `Show all`; open `Status`.",
+        "expected": "Defaults hide and return; options `All topics`, `Active only`, `Inactive only`."
+      },
+      {
+        "action": "`Add topic` then `x`; `Add topic` then click away.",
+        "expected": "Blank row removed both times, no dialog."
+      },
+      {
+        "action": "Add a topic with a unique name; rename it.",
+        "expected": "Toasts `Topic added`, `Topic renamed`."
+      },
+      {
+        "action": "Add a sub-topic; cancel a blank one; rename the sub-topic.",
+        "expected": "`Sub-topic added`; blank row removed; `Sub-topic updated`."
+      },
+      {
+        "action": "Set code `1110`, reopen, pick `N/A`.",
+        "expected": "Pill `1110` (selected in picker), then `N/A`."
+      },
+      {
+        "action": "Deactivate the topic (`Yes`).",
+        "expected": "Toast `Topic and its sub-topics deactivated`; sub-topic `Paused with topic`; `Add sub-topic` hidden."
+      },
+      {
+        "action": "Filter `Inactive only` / `Active only`.",
+        "expected": "Topic shown / hidden."
+      },
+      {
+        "action": "Reactivate `Just the topic`.",
+        "expected": "Topic active, sub-topic still inactive."
+      },
+      {
+        "action": "Deactivate, reactivate `Topic and all sub-topics`.",
+        "expected": "Both active."
+      },
+      {
+        "action": "Deactivate and reactivate the sub-topic.",
+        "expected": "`Sub-topic deactivated` / `Sub-topic activated`, no dialog."
+      },
+      {
+        "action": "Open `History`, open the code-change entry.",
+        "expected": "Actions listed with user and time; Old `1110` New `N/A`."
+      },
+      {
+        "action": "Delete the sub-topic (`No`, then `Yes`) and the topic (`Yes`).",
+        "expected": "Kept on `No`; `Sub-topic deleted`, `Topic deleted`."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Scroll to `Front Office`, expand `Professional Standards`, then find the page `Topics & Sub Topics`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, with `Full`, `Edit`, `Add` and `Delete` off, then click `Save`, wait for the message to go away, and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `Topics & Sub Topics` and verify:",
+        "expected": "`Add topic` and `Add sub-topic` are hidden or disabled; Delete icons and status pills are not usable, names cannot be edited, `Set code` does not open the picker, and `History` still opens"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "Verify you can add a topic and a sub-topic but cannot rename, change a code, change status or delete"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "Verify you can rename, set a code and change status but cannot add or delete"
+      },
+      {
+        "action": "Tick `View` and `Delete` only, then save and log in again.",
+        "expected": "Verify you can delete an unused topic or sub-topic but cannot add or rename"
+      },
+      {
+        "action": "Tick `Full`, then save and log in again.",
+        "expected": "Verify everything above works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
+  },
+  "Sites & Locations": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Sites & Locations.",
+        "expected": "Page loads with `History`, the note and `Manage Sites`."
+      },
+      {
+        "action": "Read the Sites section.",
+        "expected": "`Hide sites`, `Status` = `Active`, columns `Name`, `Site code`, `Status`; each row has a `Site` tag and lock icon; no edit controls."
+      },
+      {
+        "action": "Switch the Sites `Status` between `Inactive`, `All`, `Active`.",
+        "expected": "Rows match the filter; no pagination at 10 sites or fewer; names in alphabetical order."
+      },
+      {
+        "action": "Click `Hide sites`, then `Show sites`.",
+        "expected": "Sites section collapses and returns; Custom locations unaffected."
+      },
+      {
+        "action": "Click `Manage Sites`, then browser Back.",
+        "expected": "Site Configuration opens in the same tab; Sites & Locations returns."
+      },
+      {
+        "action": "Add a blank custom location, then `x`; add a blank one and click away.",
+        "expected": "Row removed both times, no dialog."
+      },
+      {
+        "action": "Add a custom location with a unique name; rename it.",
+        "expected": "Toasts `Custom location added`, `Custom location renamed`."
+      },
+      {
+        "action": "Deactivate it (`Yes`), filter `Active` / `Inactive` / `All`, reactivate.",
+        "expected": "Toast `Custom location deactivated`; filters show/hide it; reactivation has no dialog."
+      },
+      {
+        "action": "Delete it with `No`, then `Yes`.",
+        "expected": "Kept on `No`; toast `Custom location deleted`."
+      },
+      {
+        "action": "Add 21 custom locations; add another from page 1.",
+        "expected": "20 per page; `Page 1`, `Page 2`; the new location is on the last page."
+      },
+      {
+        "action": "Open `History`, open an entry.",
+        "expected": "Actions listed with user and time; `Changed Value(s)` shows Old and New."
+      },
+      {
+        "action": "Delete the test locations.",
+        "expected": "List ends at `No custom locations yet.`"
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Scroll to `Front Office`, expand `Professional Standards`, then find the page `Locations & Site Integration`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, with `Full`, `Edit`, `Add` and `Delete` off, then click `Save`, wait for the message to go away, and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `Sites & Locations` and verify:",
+        "expected": "The page opens, the note `Sites are defined in System > Sites & Users > Site Configuration, not here.` shows, and `History` still opens; `Add custom location` is hidden or disabled; Custom location names cannot be edited, and the delete icon and status pill are not usable"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "Verify you can add a custom location but cannot rename, change status or delete"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "Verify you can rename and change status but cannot add or delete"
+      },
+      {
+        "action": "Tick `View` and `Delete` only, then save and log in again.",
+        "expected": "Verify you can delete an unused custom location but cannot add or rename"
+      },
+      {
+        "action": "Turn off the permission that controls `Manage Sites`, then save and log in again.",
+        "expected": "Verify the note still shows and the `Manage Sites` button is hidden"
+      },
+      {
+        "action": "Turn that permission back on, then save and log in again.",
+        "expected": "Verify the `Manage Sites` button shows"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
+  }
+}

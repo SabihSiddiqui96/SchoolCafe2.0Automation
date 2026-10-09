@@ -153,6 +153,8 @@ if (submodules.length) {
 const EXCLUDE = new Set([
   // This script itself.
   'scripts/sync-to-platform.js',
+  // The nightly pipeline builds from GitHub, so it stays out of the monorepo.
+  'azure-pipelines.yml',
   // Repo furniture that belongs to this repo, not to a folder inside someone else's monorepo.
   '.env.example',
   '.gitignore',

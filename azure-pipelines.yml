@@ -1,0 +1,110 @@
+# Nightly Playwright run for the SchoolCafe 2.0 suite.
+# No CI trigger: it runs on the schedule below or when started by hand.
+trigger: none
+pr: none
+
+# Cron is UTC and does not follow daylight saving.
+schedules:
+  - cron: '0 7 * * *'
+    displayName: Nightly QA run
+    branches:
+      include:
+        - main
+    always: true
+
+parameters:
+  - name: targetEnv
+    displayName: Target environment
+    type: string
+    default: QA
+    values:
+      - QA
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - name: NODE_VERSION
+    value: 20.x
+  - name: BASE_URL
+    value: https://qa.perseusedge.com
+  - name: RUN_LABEL
+    value: QA Testing
+
+stages:
+  - stage: Run_Playwright
+    displayName: Run the SchoolCafe 2.0 suite on ${{ parameters.targetEnv }}
+    jobs:
+      - job: PlaywrightTests
+        displayName: Playwright SchoolCafe 2.0 suite
+        timeoutInMinutes: 60
+        steps:
+          - checkout: self
+
+          - task: NodeTool@0
+            displayName: Install Node.js
+            inputs:
+              versionSpec: $(NODE_VERSION)
+
+          - script: npm ci
+            displayName: Install npm packages
+
+          - script: npx playwright install --with-deps chrome
+            displayName: Install Playwright browsers
+
+          # Stop early when QA is down, so an outage is not reported as failed tests.
+          - script: |
+              set +e
+              url="$(BASE_URL)/login"
+              echo "Checking QA login reachability: $url"
+              for attempt in 1 2 3 4 5; do
+                code=$(curl -sSk -o /dev/null -L --max-time 30 -w '%{http_code}' "$url")
+                rc=$?
+                echo "attempt $attempt: curl exit $rc, HTTP $code"
+                if [ $rc -eq 0 ] && [ "$code" = "200" ]; then
+                  echo "reachable on attempt $attempt"
+                  exit 0
+                fi
+                [ $attempt -lt 5 ] && sleep 20
+              done
+              echo "##vso[task.logissue type=error]$url is not serving the login page after 5 attempts (last: curl exit $rc, HTTP $code)"
+              exit 1
+            displayName: Check QA login reachability
+
+          - script: npx playwright test --workers=1
+            displayName: Run the SchoolCafe 2.0 suite
+            env:
+              CI: true
+              BASE_URL: $(BASE_URL)
+              SC2_USERNAME: $(SC2_USERNAME)
+              SC2_PASSWORD: $(SC2_PASSWORD)
+
+          # The publish tasks fail when the folders are missing after an early death.
+          - script: mkdir -p playwright-report test-results
+            displayName: Ensure report folders exist
+            condition: succeededOrFailed()
+
+          - task: PublishTestResults@2
+            displayName: Publish JUnit test results
+            condition: succeededOrFailed()
+            inputs:
+              testResultsFormat: JUnit
+              testResultsFiles: test-results/results.xml
+              failTaskOnFailedTests: true
+              testRunTitle: SchoolCafe 2.0 $(RUN_LABEL)
+
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Playwright HTML report
+            condition: succeededOrFailed()
+            inputs:
+              targetPath: playwright-report
+              artifact: playwright-report
+              publishLocation: pipeline
+
+          - task: PublishPipelineArtifact@1
+            displayName: Publish test artifacts
+            condition: succeededOrFailed()
+            inputs:
+              targetPath: test-results
+              artifact: playwright-test-results
+              publishLocation: pipeline

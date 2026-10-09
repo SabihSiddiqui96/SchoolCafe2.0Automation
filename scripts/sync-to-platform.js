@@ -151,8 +151,12 @@ if (submodules.length) {
 
 // Not mirrored, and left alone at the target rather than treated as stale.
 const EXCLUDE = new Set([
+  // This script itself.
+  'scripts/sync-to-platform.js',
+  // Repo furniture that belongs to this repo, not to a folder inside someone else's monorepo.
   '.env.example',
   '.gitignore',
+  'README.md',
 ]);
 
 if (EXCLUDE.size) {

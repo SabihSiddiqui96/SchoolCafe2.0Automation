@@ -65,11 +65,28 @@ stages:
                   echo "reachable on attempt $attempt"
                   exit 0
                 fi
+                if [ $rc -ne 0 ]; then
+                  reason="QA is unreachable (curl exit $rc)"
+                else
+                  reason="QA returned HTTP $code"
+                fi
                 [ $attempt -lt 5 ] && sleep 20
               done
+              echo "##vso[task.setvariable variable=abortReason;isOutput=true]$reason"
               echo "##vso[task.logissue type=error]$url is not serving the login page after 5 attempts (last: curl exit $rc, HTTP $code)"
               exit 1
+            name: loginCheck
             displayName: Check QA login reachability
+
+          # Never fails the run, and skips itself when the webhook variable is unset.
+          - script: node scripts/notify-ringcentral.js --started
+            displayName: Notify RingCentral - started
+            env:
+              RINGCENTRAL_WEBHOOK_URL: $(RINGCENTRAL_WEBHOOK_URL)
+              RUN_LABEL: $(RUN_LABEL)
+              COLLECTION_URI: $(System.CollectionUri)
+              TEAM_PROJECT: $(System.TeamProject)
+              BUILD_ID: $(Build.BuildId)
 
           - script: npx playwright test --workers=1
             displayName: Run the SchoolCafe 2.0 suite
@@ -108,3 +125,41 @@ stages:
               targetPath: test-results
               artifact: playwright-test-results
               publishLocation: pipeline
+
+  - stage: Notify
+    displayName: Report the result to RingCentral
+    dependsOn: Run_Playwright
+    # always(), so a failed or cancelled run still gets reported.
+    condition: always()
+    variables:
+      SUITE_RESULT: $[ stageDependencies.Run_Playwright.PlaywrightTests.result ]
+      ABORT_REASON: $[ stageDependencies.Run_Playwright.PlaywrightTests.outputs['loginCheck.abortReason'] ]
+    jobs:
+      - job: SendWebhook
+        displayName: Post the summary
+        steps:
+          - checkout: self
+
+          - task: NodeTool@0
+            displayName: Install Node.js
+            inputs:
+              versionSpec: $(NODE_VERSION)
+
+          # A run that died before publishing has no artifact, which is the case worth reporting.
+          - task: DownloadPipelineArtifact@2
+            displayName: Download the test results
+            continueOnError: true
+            inputs:
+              artifact: playwright-test-results
+              path: $(Build.SourcesDirectory)/test-results
+
+          - script: node scripts/notify-ringcentral.js
+            displayName: Post the summary to RingCentral
+            env:
+              RINGCENTRAL_WEBHOOK_URL: $(RINGCENTRAL_WEBHOOK_URL)
+              SUITE_RESULT: $(SUITE_RESULT)
+              ABORT_REASON: $(ABORT_REASON)
+              RUN_LABEL: $(RUN_LABEL)
+              COLLECTION_URI: $(System.CollectionUri)
+              TEAM_PROJECT: $(System.TeamProject)
+              BUILD_ID: $(Build.BuildId)

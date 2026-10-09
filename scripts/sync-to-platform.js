@@ -155,6 +155,8 @@ const EXCLUDE = new Set([
   'scripts/sync-to-platform.js',
   // The nightly pipeline builds from GitHub, so it stays out of the monorepo.
   'azure-pipelines.yml',
+  // Only called by that pipeline, and it posts to a RingCentral channel owned by this team.
+  'scripts/notify-ringcentral.js',
   // Repo furniture that belongs to this repo, not to a folder inside someone else's monorepo.
   '.env.example',
   '.gitignore',

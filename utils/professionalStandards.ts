@@ -59,4 +59,10 @@ export async function openHistory(page: Page): Promise<Locator> {
     return panel;
 }
 
+/** Escape does not close the History drawer, and it hides the page behind it. */
+export async function closeHistory(page: Page): Promise<void> {
+    await page.getByRole('button', { name: 'Close drawer' }).click();
+    await expect(page.getByRole('dialog')).toHaveCount(0);
+}
+
 export const uniqueName = (prefix: string): string => `${prefix} ${Date.now().toString(36)}`;

@@ -153,6 +153,10 @@ if (submodules.length) {
 const EXCLUDE = new Set([
   // This script itself.
   'scripts/sync-to-platform.js',
+  // Local Task Scheduler tooling for this machine, not shared test automation.
+  'scripts/auto-rerun-latest.js',
+  'scripts/auto-rerun-hidden.vbs',
+  'scripts/auto-triage.js',
   // The nightly pipeline builds from GitHub, so it stays out of the monorepo.
   'azure-pipelines.yml',
   // Only called by that pipeline, and it posts to a RingCentral channel owned by this team.

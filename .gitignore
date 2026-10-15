@@ -9,3 +9,6 @@ dist/
 .rerun-history.json
 
 .auto-rerun.log
+.auto-rerun-notified.json
+.auto-triage.log
+.auto-triage-done.json

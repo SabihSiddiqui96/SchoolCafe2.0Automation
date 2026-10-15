@@ -22,7 +22,7 @@ export default defineConfig({
     ],
     use: {
         baseURL: getEnvVar('BASE_URL', { required: false }) || 'https://qa.perseusedge.com',
-        headless: !!process.env.CI,
+        headless: !!process.env.CI || process.env.HEADLESS === '1',
         ignoreHTTPSErrors: true,
         actionTimeout: 15000,
         navigationTimeout: positiveIntFromEnv('NAVIGATION_TIMEOUT_MS', process.env.CI ? 60000 : 45000),
@@ -35,7 +35,7 @@ export default defineConfig({
             name: 'chromium',
             use: {
                 ...devices['Desktop Chrome'],
-                channel: process.env.CI ? 'chrome' : undefined
+                channel: process.env.CI || process.env.PW_CHANNEL ? 'chrome' : undefined
             }
         }
     ]

@@ -56,7 +56,18 @@ export async function openHistory(page: Page): Promise<Locator> {
     await page.getByRole('button', { name: 'History' }).click();
     const panel = page.getByRole('dialog').last();
     await expect(panel).toContainText('Performed Action');
+    await showMoreHistoryRows(page, panel);
     return panel;
+}
+
+/** The pipeline's window shows 10 rows a page, so older entries sit on later pages. */
+async function showMoreHistoryRows(page: Page, panel: Locator): Promise<void> {
+    const size = panel.getByRole('combobox', { name: 'Page size' });
+    await size.waitFor({ timeout: 10000 }).catch(() => undefined);
+    if (!(await size.count())) return;
+    await size.click();
+    await page.getByRole('option', { name: '50', exact: true }).click();
+    await expect(size).toContainText('50');
 }
 
 /** Escape does not close the History drawer, and it hides the page behind it. */

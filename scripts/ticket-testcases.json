@@ -312,5 +312,441 @@
         "expected": ""
       }
     ]
+  },
+  "Certificates": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Certificates.",
+        "expected": "Page loads with `History`, the helper text, the filter chips and `Add certificate`."
+      },
+      {
+        "action": "Read the helper text, list columns and rows.",
+        "expected": "The helper text matches the ticket; columns `Name`, `Expiration`, `Employees`, `Status`, `Actions`; each row shows expiration terms, count, status pill, edit and delete icons."
+      },
+      {
+        "action": "Open `Add certificate`; tick and untick the expires box.",
+        "expected": "`Add` disabled until a name; the period dropdown appears only when ticked, with `1 year`, `2 years`, `3 years`, `5 years`."
+      },
+      {
+        "action": "Add a certificate that does not expire and one that expires after 2 years.",
+        "expected": "Toast `Certificate added`; both start `Active` with `0` employees."
+      },
+      {
+        "action": "Type the name of an existing certificate in `Add certificate`, and in the edit dialog of another one.",
+        "expected": "The message `A certificate named \"<name>\" already exists.` shows and `Add` / `Save` stay disabled."
+      },
+      {
+        "action": "Rename a certificate, change its period, then make it non-expiring.",
+        "expected": "Toast `Certificate updated` each time; the row shows the new name and expiration."
+      },
+      {
+        "action": "Use the `All`, `Active` and `Inactive` chips.",
+        "expected": "Each shows only its own certificates, `No certificates match this filter.` when empty."
+      },
+      {
+        "action": "Click an `Active` pill with `No`, then with `Yes`.",
+        "expected": "The dialog names the certificate and explains existing holders keep it; `No` keeps it active; `Yes` gives `\"<name>\" is now inactive`."
+      },
+      {
+        "action": "Click the `Inactive` pill from the `Inactive` filter.",
+        "expected": "Active again with no dialog and `\"<name>\" is now active`."
+      },
+      {
+        "action": "Add a certificate while the `Inactive` filter is selected.",
+        "expected": "Toast `Certificate added`; it is not listed under `Inactive`."
+      },
+      {
+        "action": "Delete a certificate with `No`, then `Yes`.",
+        "expected": "The dialog names the certificate and says it cannot be undone; kept on `No`; `Certificate deleted`."
+      },
+      {
+        "action": "Add an employee and issue them a certificate that expires after 2 years.",
+        "expected": "`Employee added`, `Employee saved`; the employee shows the certificate with an expiry two years on."
+      },
+      {
+        "action": "Return to `Certificates`.",
+        "expected": "Count `1` and no delete icon for that certificate, while others keep theirs."
+      },
+      {
+        "action": "Deactivate and reactivate that certificate.",
+        "expected": "Same dialog and toasts; the employee still holds it."
+      },
+      {
+        "action": "Rename it and change its period to 5 years.",
+        "expected": "The employee's certificate shows the new name and keeps its original expiry."
+      },
+      {
+        "action": "Open `History` and a `Certificate updated` entry.",
+        "expected": "Entries with user and time; `Changed Value(s)` shows Old and New."
+      },
+      {
+        "action": "Remove the certificate from the employee, then delete the test certificates.",
+        "expected": "Count back to `0`; `Certificate deleted`."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Scroll to `Front Office`, expand `Professional Standards`, then find the page `Certificates`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, with `Full`, `Edit`, `Add` and `Delete` off, then click `Save`, wait for the message to go away, and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `Certificates` and verify:",
+        "expected": "The page opens with the counts and `History` still opens; `Add certificate` is hidden or disabled; The edit and delete icons and the status pills are not usable"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "You can add a certificate but cannot edit, change status or delete"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "You can rename, change the period and change status but cannot add or delete"
+      },
+      {
+        "action": "Tick `View` and `Delete` only, then save and log in again.",
+        "expected": "You can delete a certificate with no employees but cannot add or edit"
+      },
+      {
+        "action": "Tick `Full`, then save and log in again.",
+        "expected": "Everything above works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
+  },
+  "Job Titles": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Job Titles.",
+        "expected": "Page loads with `History`, the helper text, `Add job title` and the list."
+      },
+      {
+        "action": "Read the helper text, columns and rows.",
+        "expected": "The helper text matches the ticket; columns `Job title`, `Employees`, `Actions`; count and rename on every row, delete only at `0`."
+      },
+      {
+        "action": "Click the `Job title` header twice.",
+        "expected": "The list sorts descending, then ascending."
+      },
+      {
+        "action": "Click `Add job title`; cancel it; click away blank; Tab away blank; Enter with only spaces.",
+        "expected": "A focused blank entry with only a cancel control; each way removes it with no confirmation."
+      },
+      {
+        "action": "Add titles with Enter, Tab and click away.",
+        "expected": "Toast `Job title added`; each row starts at `0` with rename and delete."
+      },
+      {
+        "action": "Add a duplicate in a different case, with extra spaces, then correct it.",
+        "expected": "`\"<existing name>\" already exists.`; the entry stays open with the typed text; a unique name then saves."
+      },
+      {
+        "action": "Add names with special characters, accents and extra spaces.",
+        "expected": "Shown as typed; spaces trimmed."
+      },
+      {
+        "action": "Rename an unused title; rename into a duplicate; rename to the same name; change only the case; press Escape.",
+        "expected": "`Job title renamed` with no dialog; the duplicate is blocked with the message; same name changes nothing; Escape reverts."
+      },
+      {
+        "action": "Delete an unused title with `No`, then `Yes`.",
+        "expected": "The dialog names the title and says it cannot be undone; kept on `No`; `Job title deleted`."
+      },
+      {
+        "action": "Give an employee a job title.",
+        "expected": "`Employee saved`; the count is `1` and the delete icon is gone."
+      },
+      {
+        "action": "Rename that title, first into a duplicate, then to a new name with `No`, then `Yes`.",
+        "expected": "The duplicate error shows before any dialog; the dialog names old name, new name and `1 employee`; unchanged on `No`; `Job title renamed` on `Yes`."
+      },
+      {
+        "action": "Open the employee and the Employees `All job titles` filter.",
+        "expected": "The employee shows the new name; the filter lists the new name and not the old one."
+      },
+      {
+        "action": "Move the employee to a different title.",
+        "expected": "The old title shows `0` with a delete icon; the new one shows `1` without."
+      },
+      {
+        "action": "Open Add employee, Add more details, the `Job title` dropdown.",
+        "expected": "`None` and every job title are listed."
+      },
+      {
+        "action": "Open `History` and a `Job title renamed` entry.",
+        "expected": "Actions listed with user and time; `Changed Value(s)` shows the old and new name."
+      },
+      {
+        "action": "Reset the employee to `None` and delete the test titles.",
+        "expected": "`Job title deleted` each time."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Scroll to `Front Office`, expand `Professional Standards`, then find the page `Job Titles`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, with `Full`, `Edit`, `Add` and `Delete` off, then click `Save`, wait for the message to go away, and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `Job Titles` and verify:",
+        "expected": "The page opens with the counts and `History` still opens; `Add job title` is hidden or disabled; The rename and delete icons are not usable"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "You can add a job title but cannot rename or delete"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "You can rename a job title but cannot add or delete"
+      },
+      {
+        "action": "Tick `View` and `Delete` only, then save and log in again.",
+        "expected": "You can delete a job title with no employees but cannot add or rename"
+      },
+      {
+        "action": "Tick `Full`, then save and log in again.",
+        "expected": "Everything above works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
+  },
+  "Employees": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Employees.",
+        "expected": "Search, `Site`, `Employment status` and `Job title` filters, quick filters, `Select` and `Add employee` show with their defaults."
+      },
+      {
+        "action": "Open Add employee.",
+        "expected": "Sections, dropdown options and the disabled button are as in the steps."
+      },
+      {
+        "action": "Fill the form with invalid values, then a duplicate `Employee ID`.",
+        "expected": "Each validation message shows; a duplicate shows `Employee ID already belongs to <name>.` and blocks submit; the form resets after Cancel."
+      },
+      {
+        "action": "Add an employee with only the required fields, then one with every detail.",
+        "expected": "`Employee added`; the row is Active with `Below hours`; the details page shows today as the hire date and every saved value."
+      },
+      {
+        "action": "Search, filter by `Site`, `Job title`, `Employment status` and the quick filters.",
+        "expected": "Search starts at 3 characters; each filter narrows the list."
+      },
+      {
+        "action": "Issue an expiring and an expired certificate.",
+        "expected": "`Expiring Cert` and `Expired Cert` show together or alone, in the directory and on the details page."
+      },
+      {
+        "action": "Set the `<20 Hours Staff` requirement to `0`, add an employee at that level, then set it back to `4`.",
+        "expected": "The new employee shows `Compliant`, and `Below hours` returns after the change back; `Compliant` and `Below hours` never show together."
+      },
+      {
+        "action": "Select employees and use `Make Inactive`, then `Make Active`.",
+        "expected": "Count, direction, dialog text, toasts and chips are right; select mode closes after each change."
+      },
+      {
+        "action": "Open an employee and click `Back`.",
+        "expected": "Filters, search and chip are kept; the row shows `Last viewed`."
+      },
+      {
+        "action": "Open a row's history and `Job Titles`.",
+        "expected": "`Employee added` is listed; the job title count includes the employee."
+      },
+      {
+        "action": "Clean up.",
+        "expected": "Certificates removed; test employees set to `Inactive`."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Find `Professional Standards`, then the page `Employees`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, then click `Save`, wait for the message to go away, and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `Employees` and verify:",
+        "expected": "The directory and an employee's details open; `Add employee` is hidden or disabled"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "You can add an employee"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "You can change an employee's details; Check whether `Select` and `Make Active/Inactive` work (the ticket does not say which permission they need)"
+      },
+      {
+        "action": "Tick `Full`, then save and log in again.",
+        "expected": "Everything above works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
+  },
+  "Employee Details": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Employees and an employee.",
+        "expected": "The header, tiles and all seven sections show with their fields."
+      },
+      {
+        "action": "Click a field, change it, then `Done`, `Cancel` and `Save`.",
+        "expected": "The field becomes an input; `Unsaved changes` shows on that section only; `Cancel` reverts; `Save` gives `Employee saved`."
+      },
+      {
+        "action": "Enter invalid values in the contact and personal fields.",
+        "expected": "Each validation message shows and `Save` stays disabled."
+      },
+      {
+        "action": "Change `Employee ID`, clear it, then type another employee's ID.",
+        "expected": "A duplicate shows `Employee ID already belongs to <name>.`, a blank shows `Required`, and `Save` is disabled for both."
+      },
+      {
+        "action": "Change `CEU level`, save, then set it back.",
+        "expected": "The required hours in the tile follow the level."
+      },
+      {
+        "action": "Flip the `Active`/`Inactive` pill, save, flip again, then cancel.",
+        "expected": "The header chips update after `Save`; `Cancel` reverts."
+      },
+      {
+        "action": "Pick a photo and cancel, then pick it again and save.",
+        "expected": "The photo previews, `Cancel` reverts it, and `Save` keeps it."
+      },
+      {
+        "action": "Issue a certificate with a past date, undo a removal, then remove and save.",
+        "expected": "The expiration is counted from the issue date; `Expiring Cert` shows; undo restores the row; the removal saves."
+      },
+      {
+        "action": "Upload, reject and remove a document.",
+        "expected": "`Document uploaded` with no `Save` bar; a wrong type is refused; removal asks for confirmation."
+      },
+      {
+        "action": "Add, edit and remove notes.",
+        "expected": "`Note saved` newest first; `(edited)` after an edit; removal asks for confirmation."
+      },
+      {
+        "action": "Change a field and click `Back`.",
+        "expected": "The leave dialog shows; `No` keeps the change."
+      },
+      {
+        "action": "Open `History` and an `Employee updated` entry.",
+        "expected": "Entries show; `Changed Value(s)` shows the old and new values."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Find `Professional Standards`, then the page `Employees`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, then save and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open an employee and verify:",
+        "expected": "The details page opens and everything is read-only; The fields cannot be edited and `Save`, the photo, `Issue certificate`, `Upload document` and `Add note` are hidden or disabled"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "You can issue a certificate, upload a document and add a note"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "You can edit the fields, change the status, change the photo and save"
+      },
+      {
+        "action": "Tick `View` and `Delete` only, then save and log in again.",
+        "expected": "You can remove a certificate, a document and a note"
+      },
+      {
+        "action": "Tick `Full`, then save and log in again.",
+        "expected": "Everything above works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
   }
 }

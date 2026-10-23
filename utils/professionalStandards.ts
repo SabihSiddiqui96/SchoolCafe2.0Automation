@@ -29,10 +29,35 @@ export async function waitForPageReady(page: Page, ready: Locator): Promise<void
     }).toPass({ timeout: 100000, intervals: [500] });
 }
 
+/** The Configuration landing page lists these pages, sometimes under a slightly different name. */
+const CONFIGURATION_PAGES: Record<string, string> = {
+    'CEU Levels': 'CEU Levels',
+    'Topics & Sub Topics': 'Topics & Sub-topics',
+    'Sites & Locations': 'Sites & Locations',
+    Certificates: 'Certificates',
+    'Job Titles': 'Job Titles',
+    Rosters: 'Rosters',
+    'Training Sources and Methods': 'Training Sources and Methods',
+};
+
+const sideMenu = (page: Page, name: string): Locator => page.getByRole('button', { name, exact: true }).filter({ visible: true }).first();
+
+/** Opens the Professional Standards menu when it is not showing, then Configuration and its landing page. */
+export async function openConfiguration(page: Page): Promise<void> {
+    if (!(await sideMenu(page, 'Configuration').count())) await page.locator('nav div[title="Professional Standards"]').first().click();
+    await sideMenu(page, 'Configuration').click();
+    await expect(page.getByText('Regular upkeep', { exact: true })).toBeVisible();
+}
+
 export async function openProfessionalStandardsPage(page: Page, menuName: string, ready: Locator): Promise<void> {
-    const menuItem = page.getByRole('button', { name: menuName, exact: true }).first();
-    if (!(await menuItem.isVisible())) await page.locator('nav div[title="Professional Standards"]').first().click();
-    await menuItem.click();
+    const landingName = CONFIGURATION_PAGES[menuName];
+    if (landingName) {
+        await openConfiguration(page);
+        await page.locator('main').getByRole('button', { name: landingName, exact: true }).click();
+    } else {
+        if (!(await sideMenu(page, menuName).count())) await page.locator('nav div[title="Professional Standards"]').first().click();
+        await sideMenu(page, menuName).click();
+    }
     await waitForPageReady(page, ready);
 }
 
@@ -148,7 +173,7 @@ export async function saveEmployee(page: Page): Promise<void> {
 }
 
 export async function setEmployeeStatus(page: Page, status: 'Active' | 'Inactive'): Promise<void> {
-    const pill = page.getByRole('button', { name: 'Employment status' });
+    const pill = page.getByRole('switch', { name: 'Employment status' });
     if ((await pill.innerText()).trim() === status) return;
     await pill.click();
     await saveEmployee(page);

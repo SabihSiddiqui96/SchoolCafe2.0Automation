@@ -154,7 +154,7 @@ async function addingEmployees(page: Page, minimal: string, detailed: string): P
         await expect(chipsOf(page, minimal)).not.toContainText('Inactive');
         await chipsOf(page, minimal).click();
         await expect(page.getByText('Employee Details')).toBeVisible();
-        await expect(page.getByRole('button', { name: 'Employment status' })).toHaveText('Active');
+        await expect(page.getByRole('switch', { name: 'Employment status' })).toHaveText('Active');
         const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
         await expect(page.getByText(today).first()).toBeVisible();
         await backToEmployees(page);
@@ -206,7 +206,7 @@ async function addingEmployees(page: Page, minimal: string, detailed: string): P
         await expect(toast(page, 'Employee added').first()).toBeVisible();
         await searchEmployees(page, detailed);
         await expect(chipsOf(page, detailed)).toContainText(choice.job);
-        await expect(chipsOf(page, detailed)).toContainText(choice.site);
+        await expect(chipsOf(page, detailed)).toContainText(choice.site.replace(/^\d+ - /, ''));
         await chipsOf(page, detailed).click();
         await expect(page.getByText('Employee Details')).toBeVisible();
         for (const value of [`${detailed}@example.com`, '(512) 555-0101', '(512) 555-0102', '(512) 555-0103', '05/17/1990', 'Female', '1 Test Way', 'Suite 2', 'Austin', 'Texas', '78701', '09/01/2026']) {

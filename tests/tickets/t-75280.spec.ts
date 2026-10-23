@@ -23,7 +23,7 @@ const siteStatusFilter = (page: Page) => page.getByRole('combobox').filter({ has
 const customStatusFilter = (page: Page) => page.getByRole('combobox').filter({ hasText: FILTERS }).last();
 const addLocation = (page: Page) => button(page, 'Add custom location');
 const nameField = (page: Page, name: string) => page.getByRole('textbox', { name: `Name ${name}`, exact: true });
-const statusPill = (page: Page, name: string) => page.getByRole('button', { name: `${name} Status`, exact: true });
+const statusPill = (page: Page, name: string) => page.getByRole('switch', { name: `${name} Status`, exact: true });
 const deleteIcon = (page: Page, name: string) => page.getByRole('button', { name: `Delete ${name}`, exact: true });
 const pager = (page: Page) => page.getByText(/\d+ - \d+ of \d+ items/);
 

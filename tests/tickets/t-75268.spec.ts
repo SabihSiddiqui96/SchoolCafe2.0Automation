@@ -28,7 +28,7 @@ import {
 
 // --- Locators
 const saveButton = (page: Page) => page.getByRole('button', { name: 'Save', exact: true });
-const pill = (page: Page) => page.getByRole('button', { name: 'Employment status' });
+const pill = (page: Page) => page.getByRole('switch', { name: 'Employment status' });
 const photo = (page: Page, name: string) => page.locator(`img[alt="${name} ${name}"]`);
 const confirmYes = (page: Page) => page.getByRole('dialog').last().getByText(/^yes$/i);
 const main = (page: Page) => page.locator('main');

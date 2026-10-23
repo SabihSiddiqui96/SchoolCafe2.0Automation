@@ -31,7 +31,7 @@ const HELPER_TEXT =
     'but it will not remove the certificate from any employee who has already been awarded it.';
 const addCertificate = (page: Page) => page.getByRole('button', { name: 'Add certificate' });
 const chip = (page: Page, name: string) => page.getByRole('button', { name, exact: true });
-const statusPill = (page: Page, name: string) => page.getByRole('button', { name: `${name} Status`, exact: true });
+const statusPill = (page: Page, name: string) => page.getByRole('switch', { name: `${name} Status`, exact: true });
 const editIcon = (page: Page, name: string) => page.getByRole('button', { name: `Edit ${name}`, exact: true });
 const deleteIcon = (page: Page, name: string) => page.getByRole('button', { name: `Delete ${name}`, exact: true });
 const certRow = (page: Page, name: string) => page.getByRole('row').filter({ has: editIcon(page, name) });
@@ -101,7 +101,7 @@ async function pageAndList(page: Page): Promise<void> {
         }
         const row = page.getByRole('row').filter({ has: page.getByRole('button', { name: /^Edit / }) }).first();
         await expect(row).toContainText(/Expires after \d+ years?|Does not expire/);
-        await expect(row.getByRole('button', { name: /Status$/ })).toBeVisible();
+        await expect(row.getByRole('switch', { name: /Status$/ })).toBeVisible();
         await expect(row.getByRole('button', { name: /^Edit / })).toBeVisible();
     });
 }

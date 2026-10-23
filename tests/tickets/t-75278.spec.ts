@@ -8,6 +8,7 @@ import {
     dialog,
     loginToSchoolCafe2,
     openHistory,
+    openConfiguration,
     openProfessionalStandardsPage,
     toast,
     uniqueName,
@@ -26,7 +27,7 @@ const STATUS_FILTER = (page: Page) => page.getByRole('combobox').filter({ hasTex
 const button = (page: Page, name: string | RegExp) => page.getByRole('button', { name });
 const topicInput = (page: Page, name: string) => rowInput(page, name, 'Topic name');
 const subTopicInput = (page: Page, name: string) => rowInput(page, name, 'Sub-topic name');
-const statusPill = (page: Page, name: string) => page.getByRole('button', { name: `${name} Status`, exact: true });
+const statusPill = (page: Page, name: string) => page.getByRole('switch', { name: `${name} Status`, exact: true });
 const deleteIcon = (page: Page, name: string) => page.getByRole('button', { name: `Delete ${name}`, exact: true });
 const loPill = (page: Page, name: string) => page.getByLabel(new RegExp(`^LO code for ${name}: `));
 
@@ -60,6 +61,12 @@ async function openLoPicker(page: Page, subTopic: string, topic: string): Promis
     await expect(page.getByRole('menuitem').first()).toBeVisible();
 }
 
+/** A topic folds up after its status changes - open it again to reach its sub-topics. */
+async function expandTopic(page: Page, topic: string): Promise<void> {
+    const expand = page.getByRole('button', { name: `Expand ${topic}`, exact: true });
+    if (await expand.count()) await expand.click();
+}
+
 async function addTopic(page: Page, name: string): Promise<void> {
     await button(page, 'Add topic').click();
     await page.getByRole('textbox', { name: 'Topic name', exact: true }).last().fill(name);
@@ -82,7 +89,8 @@ async function removeItem(page: Page, name: string): Promise<void> {
         if (!(await confirm.count())) await deleteIcon(page, name).click();
         await expect(confirm).toBeVisible({ timeout: 3000 });
     }).toPass({ timeout: 20000 });
-    await expect(confirm).toContainText(`Are you sure you want to delete "${name}"? This action cannot be undone.`);
+    await expect(confirm).toContainText(`Are you sure you want to delete "${name}"?`);
+    await expect(confirm).toContainText('This action cannot be undone.');
     await answerConfirmation(page, 'Yes');
     await expect(deleteIcon(page, name)).toHaveCount(0);
 }
@@ -109,15 +117,11 @@ async function removeStaleTopics(page: Page): Promise<void> {
 async function pageDefaultsAndFilters(page: Page): Promise<void> {
     await loginToSchoolCafe2(page);
 
-    await test.step('Topics & Sub Topics is second under Configuration', async () => {
-        await page.locator('nav div[title="Professional Standards"]').first().click();
-        const y = async (name: string) => (await button(page, name).first().boundingBox())!.y;
-        const ceu = await y('CEU Levels');
-        const topics = await y('Topics & Sub Topics');
-        const sites = await y('Sites & Locations');
-        expect(ceu).toBeLessThan(topics);
-        expect(topics).toBeLessThan(sites);
-        await button(page, 'Topics & Sub Topics').first().click();
+    await test.step('Topics & Sub-topics follows Sites & Locations on the Configuration page', async () => {
+        await openConfiguration(page);
+        const y = async (name: string) => (await page.locator('main').getByRole('button', { name, exact: true }).boundingBox())!.y;
+        expect(await y('Sites & Locations')).toBeLessThan(await y('Topics & Sub-topics'));
+        await page.locator('main').getByRole('button', { name: 'Topics & Sub-topics', exact: true }).click();
         await waitForPageReady(page, page.getByText('Nutrition', { exact: true }));
     });
 
@@ -287,6 +291,7 @@ async function statusDeleteAndHistory(page: Page): Promise<void> {
             await answerConfirmation(page, 'Yes');
             await expect(toast(page, 'Topic and its sub-topics deactivated').first()).toBeVisible();
             await expect(statusPill(page, topic)).toHaveText('Inactive');
+            await expandTopic(page, topic);
             await expect(page.getByText('Paused with topic')).toBeVisible();
             await expect(page.getByText('Add sub-topic', { exact: false })).toHaveCount(0);
             await expect(subTopicInput(page, sub)).toHaveCount(0);
@@ -317,6 +322,7 @@ async function statusDeleteAndHistory(page: Page): Promise<void> {
             await button(page, 'Just the topic').click();
             await expect(toast(page, 'Topic activated').first()).toBeVisible();
             await expect(statusPill(page, topic)).toHaveText('Active');
+            await expandTopic(page, topic);
             await expect(statusPill(page, sub)).toHaveText('Inactive');
         });
 
@@ -327,10 +333,12 @@ async function statusDeleteAndHistory(page: Page): Promise<void> {
             await clickWhenSettled(statusPill(page, topic));
             await button(page, 'Topic and all sub-topics').click();
             await expect(statusPill(page, topic)).toHaveText('Active');
+            await expandTopic(page, topic);
             await expect(statusPill(page, sub)).toHaveText('Active');
         });
 
         await test.step('A sub-topic is switched on and off right away', async () => {
+            await expandTopic(page, topic);
             await clickWhenSettled(statusPill(page, sub));
             await expect(toast(page, 'Sub-topic deactivated').first()).toBeVisible();
             await expect(statusPill(page, sub)).toHaveText('Inactive');

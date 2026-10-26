@@ -748,5 +748,111 @@
         "expected": ""
       }
     ]
+  },
+  "Rosters": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Configuration → Rosters.",
+        "expected": "`Rosters` page with `History`, `Back`, the helper text, the search box, `Add roster` and the columns."
+      },
+      {
+        "action": "Open `Add roster`; submit it empty, then with an existing name in another case.",
+        "expected": "`Enter a roster name`; `<name> already exists.` and the dialog stays open."
+      },
+      {
+        "action": "Add a roster.",
+        "expected": "`Roster added`; the details page opens with `0 active members` and the empty members message."
+      },
+      {
+        "action": "Rename the roster: duplicate, Escape, blank, then a new name by clicking away; save.",
+        "expected": "The duplicate error blocks `Save`; Escape and blank revert; the new name is staged with `Unsaved changes` and saves with `Roster saved`."
+      },
+      {
+        "action": "Open `Add members`; search and tick two employees across searches; add them.",
+        "expected": "The count follows the ticks; both members show `(pending)`; the bar `You have unsaved changes` shows; `Roster saved` after `Save`."
+      },
+      {
+        "action": "Reopen `Add members`.",
+        "expected": "Members show `Already on the roster` and cannot be ticked; the header counts them; `Select all` skips them; the `Roster` filter leaves out this roster."
+      },
+      {
+        "action": "Stage a removal and an addition; check the selector; leave and return; cancel.",
+        "expected": "`Pending removal` with `Undo`; `Pending removal` and `Pending add` in the selector; the staged changes survive leaving and returning; `Cancel` discards them."
+      },
+      {
+        "action": "Add inactive employees and save; search the members.",
+        "expected": "`2 active members · 2 inactive`; inactive members dimmed with a tag; the list reads `2 members · 2 inactive`; `No members match.` for no match."
+      },
+      {
+        "action": "Search the Rosters list.",
+        "expected": "The list filters; `No rosters match.` for no match."
+      },
+      {
+        "action": "On `Employees`, select employees and use `Add to roster`, then `New roster…`.",
+        "expected": "The messages for added, already-on and new-roster results; select mode closes."
+      },
+      {
+        "action": "Delete one roster from the list and one from its details.",
+        "expected": "The dialog names the roster and the members; `No` keeps it; `<name> deleted`."
+      },
+      {
+        "action": "Open `History`.",
+        "expected": "`Roster added`, `Roster saved`, `Employees added to \"<name>\"` and `Roster deleted` are listed; `Roster saved` shows the old and new name."
+      },
+      {
+        "action": "Clean up.",
+        "expected": "Test rosters deleted."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Find `Professional Standards`, then the page `Rosters`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, then save and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `Rosters` and verify:",
+        "expected": "The Rosters list and a roster's details open; `Add roster`, `Add members`, the name edit, remove, `Save` and `Delete roster` are hidden or disabled"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "You can add a roster and add members"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "You can rename a roster, add and remove members and save"
+      },
+      {
+        "action": "Tick `View` and `Delete` only, then save and log in again.",
+        "expected": "You can delete a roster from the list and from its details"
+      },
+      {
+        "action": "Tick `Full`, then save and log in again.",
+        "expected": "Everything above works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
   }
 }

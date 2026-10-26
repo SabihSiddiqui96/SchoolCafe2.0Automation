@@ -332,7 +332,7 @@ async function selectMode(page: Page, one: string, two: string): Promise<void> {
         await employeeRow(page, two).click();
         await selectedCount(page, 2);
         await expect(page.getByText('Employee Details')).toHaveCount(0);
-        await expect(page.getByRole('button', { name: 'Add to roster' })).toBeDisabled();
+        await expect(page.getByRole('button', { name: 'Add to roster' })).toBeEnabled();
         await expect(page.getByRole('button', { name: 'Add to a Training' })).toBeDisabled();
     });
 

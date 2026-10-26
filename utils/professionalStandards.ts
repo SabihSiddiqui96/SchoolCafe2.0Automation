@@ -290,11 +290,16 @@ export function awardedToExpireIn(days: number): string {
 
 const noEmployees = (page: Page): Locator => page.getByText('No employees match these filters.');
 
-/** True when an employee with this name is on file, active or not. */
+/** True when an employee with this name is on file, active or not. A stale "no match" can show while the list loads, so it looks again. */
 async function employeeExists(page: Page, name: string): Promise<boolean> {
     await chooseOption(page, employmentFilter(page), 'All employment');
     await searchEmployees(page, `${name} ${name}`);
-    await expect(employeeRow(page, name).or(noEmployees(page)).first()).toBeVisible();
+    for (let attempt = 0; attempt < 3; attempt++) {
+        await page.waitForLoadState('networkidle');
+        await expect(employeeRow(page, name).or(noEmployees(page)).first()).toBeVisible();
+        if (await employeeRow(page, name).count()) return true;
+        await page.waitForTimeout(1500);
+    }
     return (await employeeRow(page, name).count()) > 0;
 }
 

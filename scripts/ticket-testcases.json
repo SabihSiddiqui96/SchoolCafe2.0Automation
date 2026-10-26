@@ -6,7 +6,7 @@
         "expected": "Signed in; dashboard loads."
       },
       {
-        "action": "Open Professional Standards → CEU Levels.",
+        "action": "Open Professional Standards → Configuration → CEU Levels.",
         "expected": "Page loads with the program year selector and `History`."
       },
       {
@@ -97,10 +97,10 @@
       },
       {
         "action": "Open Professional Standards → Configuration.",
-        "expected": "`Topics & Sub Topics` is second, after `CEU Levels`."
+        "expected": "`Topics & Sub-topics` follows `Sites & Locations` on the Configuration page."
       },
       {
-        "action": "Open Topics & Sub Topics.",
+        "action": "Open Topics & Sub-topics.",
         "expected": "`History`, search, `Status`, `Hide defaults`, `Add topic` present."
       },
       {
@@ -214,7 +214,7 @@
         "expected": "Signed in; dashboard loads."
       },
       {
-        "action": "Open Professional Standards → Sites & Locations.",
+        "action": "Open Professional Standards → Configuration → Sites & Locations.",
         "expected": "Page loads with `History`, the note and `Manage Sites`."
       },
       {
@@ -320,7 +320,7 @@
         "expected": "Signed in; dashboard loads."
       },
       {
-        "action": "Open Professional Standards → Certificates.",
+        "action": "Open Professional Standards → Configuration → Certificates.",
         "expected": "Page loads with `History`, the helper text, the filter chips and `Add certificate`."
       },
       {
@@ -442,7 +442,7 @@
         "expected": "Signed in; dashboard loads."
       },
       {
-        "action": "Open Professional Standards → Job Titles.",
+        "action": "Open Professional Standards → Configuration → Job Titles.",
         "expected": "Page loads with `History`, the helper text, `Add job title` and the list."
       },
       {

@@ -854,5 +854,205 @@
         "expected": ""
       }
     ]
+  },
+  "Training Sources and Methods": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Configuration → Training Sources and Methods.",
+        "expected": "`Training Sources & Methods` with `History`, `Back` and the helper text; both sections show the `Status` filter, `Show defaults` and the add button."
+      },
+      {
+        "action": "Show the defaults in each section.",
+        "expected": "The ten sources and four methods show with `Default` tags and locks, no delete icons, in name order; `Hide defaults` hides them again."
+      },
+      {
+        "action": "Open each `Status` filter.",
+        "expected": "`All`, `Active` and `Inactive`, `Active` by default; the sections filter independently."
+      },
+      {
+        "action": "Add a blank entry and leave it with Enter, Tab, a click away and the X.",
+        "expected": "The blank entry disappears each time."
+      },
+      {
+        "action": "Add custom entries with Enter, Tab and a click away.",
+        "expected": "Each shows `(pending)`, `Custom`, `Active` and a trash icon; `Unsaved changes` shows on that section and the bar `You have unsaved changes` appears."
+      },
+      {
+        "action": "Add duplicate names: same custom name in another case, a default name and a name with spaces.",
+        "expected": "`\"<existing name>\" already exists.` and the entry stays open."
+      },
+      {
+        "action": "Rename a custom entry, rename into a duplicate and press Escape.",
+        "expected": "`(edited)` with no dialog; the duplicate shows the message; Escape reverts."
+      },
+      {
+        "action": "Turn entries inactive and remove one.",
+        "expected": "`(edited)` and `Inactive`; the row stays visible under `Active`; the removal shows strikethrough and `Undo`, and `Undo` restores it."
+      },
+      {
+        "action": "Sort by name.",
+        "expected": "Descending, then ascending."
+      },
+      {
+        "action": "Stage changes in both lists, then `Cancel`, then stage again and `Save`.",
+        "expected": "`Cancel` discards both lists; `Save` shows `Training sources and methods saved` for both."
+      },
+      {
+        "action": "Check the filters after saving.",
+        "expected": "The inactive entry hides under `Active` and shows under `Inactive` and `All`."
+      },
+      {
+        "action": "Open `History`.",
+        "expected": "Added, renamed and deactivated entries are listed with old and new values."
+      },
+      {
+        "action": "Clean up.",
+        "expected": "Custom entries deleted and saved."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Find `Professional Standards`, then the page `Training Sources and Methods`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, then save and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `Training Sources and Methods` and verify:",
+        "expected": "The page opens and shows both lists; `Add source`, `Add method`, renaming, the `Active` / `Inactive` pills and the delete icons are hidden or disabled, and `Save` is not available"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "You can add a custom source and method and save them"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "You can rename custom entries and change their status and save"
+      },
+      {
+        "action": "Tick `View` and `Delete` only, then save and log in again.",
+        "expected": "You can remove a custom entry that has never been used and save"
+      },
+      {
+        "action": "Tick `Full`, then save and log in again.",
+        "expected": "Everything above works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
+  },
+  "Training Templates": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Training Templates.",
+        "expected": "The page shows the helper text, search, `Advanced search`, the `Status` filter, `New training template` and the columns."
+      },
+      {
+        "action": "Create templates with different hours, mandatory, certificate, source, method and sites.",
+        "expected": "`\"<name>\" saved`; each row shows its icon, chips, `Not yet used`, `Active`, the history and trash icons; site-limited templates show `· <site> only` or `· 2 sites` with a tooltip."
+      },
+      {
+        "action": "Search by name and use the `Status` filter.",
+        "expected": "Matching templates show; no match shows `No templates match these filters.`; `Active` and `Inactive` split the list."
+      },
+      {
+        "action": "Click a status pill off and on.",
+        "expected": "No dialog; toasts `\"<name>\" is now inactive` and `\"<name>\" is now active`; the tooltip reads `Click to change status`."
+      },
+      {
+        "action": "Open `Advanced search` and use the buttons, dropdowns and sorts.",
+        "expected": "The count follows the filters; `Showing X of Y templates` and `Clear filters` show; the closed panel note shows; sorts reorder the list."
+      },
+      {
+        "action": "Make the certificate, source, method and a sub-topic inactive.",
+        "expected": "The ⚠ and its tooltip name each reason; the `Exceptions` filter finds them; the dropdowns mark `(inactive)`."
+      },
+      {
+        "action": "Open a template and cancel.",
+        "expected": "The list returns and the row is highlighted."
+      },
+      {
+        "action": "Open a row's history.",
+        "expected": "`Training template added`, `activated` and `deactivated` are listed."
+      },
+      {
+        "action": "Delete a template with `Cancel`, then `Yes, delete`.",
+        "expected": "The popup names the template; `Cancel` keeps it; `\"<name>\" deleted`."
+      },
+      {
+        "action": "Clean up.",
+        "expected": "Templates deleted and everything made inactive restored."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Find `Professional Standards`, then the page `Training Templates`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, then save and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `Training Templates` and verify:",
+        "expected": "The list opens with search and filters; `New training template`, the status pills and the trash icons are hidden or disabled"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "You can create a template"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "You can open and edit a template and change its status"
+      },
+      {
+        "action": "Tick `View` and `Delete` only, then save and log in again.",
+        "expected": "You can delete a template that was never used"
+      },
+      {
+        "action": "Tick `Full`, then save and log in again.",
+        "expected": "Everything above works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
   }
 }

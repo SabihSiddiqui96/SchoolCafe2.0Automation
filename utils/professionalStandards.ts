@@ -42,9 +42,17 @@ const CONFIGURATION_PAGES: Record<string, string> = {
 
 const sideMenu = (page: Page, name: string): Locator => page.getByRole('button', { name, exact: true }).filter({ visible: true }).first();
 
+const moduleIcon = (page: Page): Locator => page.locator('nav div[title="Professional Standards"]').first();
+
+/** Waits for the page to settle on either menu, then opens the module menu when this item is not showing. */
+async function openModuleMenu(page: Page, item: string): Promise<void> {
+    await expect(sideMenu(page, item).or(moduleIcon(page))).toBeVisible();
+    if (!(await sideMenu(page, item).count())) await moduleIcon(page).click();
+}
+
 /** Opens the Professional Standards menu when it is not showing, then Configuration and its landing page. */
 export async function openConfiguration(page: Page): Promise<void> {
-    if (!(await sideMenu(page, 'Configuration').count())) await page.locator('nav div[title="Professional Standards"]').first().click();
+    await openModuleMenu(page, 'Configuration');
     await sideMenu(page, 'Configuration').click();
     await expect(page.getByText('Regular upkeep', { exact: true })).toBeVisible();
 }
@@ -55,7 +63,7 @@ export async function openProfessionalStandardsPage(page: Page, menuName: string
         await openConfiguration(page);
         await page.locator('main').getByRole('button', { name: landingName, exact: true }).click();
     } else {
-        if (!(await sideMenu(page, menuName).count())) await page.locator('nav div[title="Professional Standards"]').first().click();
+        await openModuleMenu(page, menuName);
         await sideMenu(page, menuName).click();
     }
     await waitForPageReady(page, ready);
@@ -336,3 +344,20 @@ export async function freshEmployeePair(page: Page): Promise<[string, string]> {
         }
     }
 }
+
+// --- Training Sources and Methods
+export type TrainingListKind = 'source' | 'method';
+
+const TRAINING_LISTS: Record<TrainingListKind, { section: string; add: string }> = {
+    source: { section: 'Training sources', add: 'Add source' },
+    method: { section: 'Training methods', add: 'Add method' },
+};
+
+/** The Training sources or Training methods block of the Training Sources and Methods page. */
+export const trainingListSection = (page: Page, kind: TrainingListKind): Locator =>
+    page
+        .locator('main')
+        .locator(`xpath=//*[normalize-space()="${TRAINING_LISTS[kind].section}"]/ancestor::*[.//button[normalize-space()="${TRAINING_LISTS[kind].add}"]][1]`)
+        .first();
+
+export const trainingListAddLabel = (kind: TrainingListKind): string => TRAINING_LISTS[kind].add;

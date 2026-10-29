@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-/** Mirror this repo's tracked files into the Cybersoft.Platform monorepo folder */
+/** Mirror this repo's tracked files into its folder in the Cybersoft Test Automation repo */
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 
 const SOURCE = path.resolve(__dirname, '..');
-const TARGET_REPO = 'C:\\Users\\sabih.siddiqui\\Desktop\\Automation\\Cybersoft.Platform';
-const PREFIX = 'Cybersoft.Platform.TestAutomation/SchoolCafe2.0Automation';
+const TARGET_REPO = 'C:\\Users\\sabih.siddiqui\\Desktop\\Automation\\Cybersoft.TestAutomation';
+const PREFIX = 'SchoolCafe2.0Automation';
 const BRANCH = 'AutomationProjects';
 const REMOTE_PATH =
-  'dev.azure.com/Cybersoft-Technologies-Inc/Platform/_git/Cybersoft.Platform';
+  'dev.azure.com/Cybersoft-Technologies-Inc/Cybersoft%20Test%20Automation/_git/Cybersoft%20Test%20Automation';
 
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
@@ -63,7 +63,7 @@ function fail(msg) {
 // --- preflight
 
 if (!fs.existsSync(TARGET_REPO)) {
-  fail(`platform repo not found at ${TARGET_REPO}`);
+  fail(`target repo not found at ${TARGET_REPO}`);
 }
 
 const pat = readEnvValue('AZURE_DEVOPS_CODE_PAT');
@@ -76,7 +76,7 @@ const targetDirty = git(TARGET_REPO, ['status', '--porcelain'], true)
   .split('\n')
   .filter((l) => l.trim() && !l.includes(PREFIX));
 if (targetDirty.length) {
-  console.error('Platform repo has uncommitted changes outside ' + PREFIX + ':');
+  console.error('Target repo has uncommitted changes outside ' + PREFIX + ':');
   targetDirty.slice(0, 10).forEach((l) => console.error('  ' + l));
   fail('resolve those first — refusing to touch a dirty shared checkout.');
 }
@@ -270,7 +270,7 @@ if (updateBranch) {
 } else {
   console.log('Open the PR here:');
   console.log(
-    `  https://dev.azure.com/Cybersoft-Technologies-Inc/Platform/_git/Cybersoft.Platform/` +
+    `  https://dev.azure.com/Cybersoft-Technologies-Inc/Cybersoft%20Test%20Automation/_git/Cybersoft%20Test%20Automation/` +
       `pullrequestcreate?sourceRef=${targetBranch}&targetRef=${BRANCH}`,
   );
 }

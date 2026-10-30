@@ -1,210 +1,59 @@
 // Professional Standards - Training Templates
 
-import { test, expect, Locator, Page } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import {
-    answerConfirmation,
     AUTOMATION_PREFIX,
     automationNames,
     closeHistory,
     createCertificate,
     dialog,
     loginToSchoolCafe2,
-    openHistory,
-    openProfessionalStandardsPage,
     toast,
-    trainingListSection,
 } from '../../utils/professionalStandards';
+import {
+    addTopicWithSubTopic,
+    advancedButton,
+    chooseFrom,
+    cleanUp,
+    clearFilters,
+    closePanel,
+    createTemplate,
+    dropdown,
+    firstSites,
+    nameField,
+    newTemplate,
+    openIcon,
+    openTemplates,
+    resetFilters,
+    search,
+    setCertificateStatus,
+    setSourceAndMethodStatus,
+    setSubTopicStatus,
+    siteName,
+} from '../../utils/trainingTemplates';
 
 // --- Locators
 const HELPER_TEXT =
     'Training templates appear as tiles on Record Training. ' +
     'Only active templates show there; inactive ones stay here so they can be turned back on later.';
-const newTemplate = (page: Page) => page.getByRole('button', { name: 'New training template' });
-const search = (page: Page) => page.getByPlaceholder('Search by template name');
-const advancedButton = (page: Page) => page.getByRole('button', { name: /^Advanced search/ });
-const closePanel = (page: Page) => page.getByRole('button', { name: 'Close advanced search' });
-const dropdown = (page: Page, name: string) => page.getByRole('combobox', { name });
-const openIcon = (page: Page, name: string) => page.getByRole('button', { name: `Open ${name}`, exact: true });
 const historyIcon = (page: Page, name: string) => page.getByRole('button', { name: `History for ${name}`, exact: true });
 const trashIcon = (page: Page, name: string) => page.getByRole('button', { name: `Delete ${name}`, exact: true });
 const statusPill = (page: Page, name: string) => page.getByRole('switch', { name: `${name} status`, exact: true });
 const row = (page: Page, name: string) => page.getByRole('row').filter({ has: openIcon(page, name) });
 const tooltip = (page: Page) => page.getByRole('tooltip');
-const nameField = (page: Page) => page.getByPlaceholder('e.g. Back of the house training');
-const clearFilters = (page: Page) => page.getByText('Clear filters', { exact: true }).first();
-const topicStatus = (page: Page, name: string) => page.getByRole('switch', { name: `${name} Status`, exact: true });
-
 // --- Helpers
-interface TemplateOptions {
-    name: string;
-    hours: number;
-    topic: string;
-    mandatory?: boolean;
-    certificate?: string;
-    source?: string;
-    method?: string;
-    sites?: string[];
-}
-
-async function openTemplates(page: Page): Promise<void> {
-    await openProfessionalStandardsPage(page, 'Training Templates', newTemplate(page));
-    await expect(search(page)).toBeVisible();
-    await expect(page.getByText('Loading training templates...')).toHaveCount(0);
-}
-
-async function chooseFrom(page: Page, control: Locator, option: string): Promise<void> {
-    await control.click();
-    await page.getByRole('option', { name: option, exact: true }).click();
-}
-
 /** Lists the names of this run's templates in the order the grid shows them. */
 async function listed(page: Page, names: string[]): Promise<string[]> {
     const all = await page.getByRole('button', { name: /^Open / }).evaluateAll((e) => e.map((x) => (x.getAttribute('aria-label') ?? '').replace(/^Open /, '')));
     return all.filter((n) => names.includes(n));
 }
 
-async function createTemplate(page: Page, o: TemplateOptions): Promise<void> {
-    await newTemplate(page).click();
-    await expect(nameField(page)).toBeVisible();
-    await nameField(page).fill(o.name);
-    await page.locator('#template-hours').fill(String(o.hours));
-    const topic = page.getByRole('combobox', { name: /Add a topic or sub-topic/ });
-    await topic.click();
-    await topic.fill(o.topic);
-    await page.getByRole('option').filter({ hasText: o.topic }).first().click();
-    await page.keyboard.press('Escape');
-    if (o.mandatory) await page.getByText('Mandatory training', { exact: true }).first().click();
-    if (o.certificate) await chooseFrom(page, page.getByRole('combobox', { name: 'Certificate to issue (optional)' }), o.certificate);
-    if (o.source) await chooseFrom(page, page.getByRole('combobox', { name: 'Training source' }), o.source);
-    if (o.method) await chooseFrom(page, page.getByRole('combobox', { name: 'Training method' }), o.method);
-    for (const site of o.sites ?? []) {
-        const sites = page.getByRole('combobox', { name: 'Search sites' });
-        await sites.click();
-        await sites.fill(site);
-        await page.getByRole('option').first().click();
-        await page.keyboard.press('Escape');
-    }
-    await page.getByRole('button', { name: 'Save training template' }).click();
-    await expect(toast(page, `"${o.name}" saved`).first()).toBeVisible();
-    await expect(openIcon(page, o.name)).toBeVisible();
-}
-
-/** Reads the names of the first sites in the editor's site picker, so no site name is baked into the test. */
-async function firstSites(page: Page, count: number): Promise<string[]> {
-    await newTemplate(page).click();
-    await expect(nameField(page)).toBeVisible();
-    const sites = page.getByRole('combobox', { name: 'Search sites' });
-    await sites.click();
-    const options = await page.getByRole('option').allInnerTexts();
-    await page.keyboard.press('Escape');
-    await page.getByRole('button', { name: '← Cancel' }).click();
-    await expect(newTemplate(page)).toBeVisible();
-    return options.slice(0, count).map((o) => o.trim());
-}
-
-const siteName = (option: string) => option.replace(/^\S+\s+-\s+/, '');
-
 async function openAdvanced(page: Page): Promise<void> {
     if (!(await closePanel(page).count())) await advancedButton(page).click();
     await expect(closePanel(page)).toBeVisible();
 }
 
-async function resetFilters(page: Page): Promise<void> {
-    if (await clearFilters(page).count()) await clearFilters(page).click();
-    await expect(clearFilters(page)).toHaveCount(0);
-}
-
 const filterButton = (page: Page, name: string) => page.getByRole('button', { name, exact: true }).first();
-
-/** Switches an item on one of the configuration pages and answers the confirmation when one shows. */
-async function flip(page: Page, pill: Locator): Promise<void> {
-    await pill.click();
-    const confirm = page.getByRole('dialog');
-    if (await confirm.count()) await answerConfirmation(page, 'Yes');
-    else await expect(page.getByRole('alert').first()).toBeVisible();
-}
-
-async function setCertificateStatus(page: Page, certificate: string, status: 'Active' | 'Inactive'): Promise<void> {
-    await openProfessionalStandardsPage(page, 'Certificates', page.getByRole('button', { name: 'Add certificate' }));
-    const pill = page.getByRole('switch', { name: `${certificate} Status`, exact: true });
-    if ((await pill.innerText()).trim() !== status) await flip(page, pill);
-    await expect(pill).toHaveText(status);
-}
-
-/** Sets the USDA source and the Online method, both defaults, active or inactive and saves. */
-async function setSourceAndMethodStatus(page: Page, status: 'Active' | 'Inactive'): Promise<void> {
-    await openProfessionalStandardsPage(page, 'Training Sources and Methods', page.getByText('Training Sources & Methods', { exact: true }));
-    for (const [kind, name] of [['source', 'USDA'], ['method', 'Online']] as const) {
-        const list = trainingListSection(page, kind);
-        await list.getByRole('combobox', { name: 'Status' }).click();
-        await page.getByRole('option', { name: 'All', exact: true }).click();
-        const toggle = list.getByRole('button', { name: /^(Show|Hide) defaults$/ }).first();
-        if ((await toggle.getAttribute('aria-label')) === 'Show defaults') await toggle.click();
-        const pill = list.getByRole('switch', { name: `${name} Status`, exact: true });
-        if ((await pill.innerText()).trim() !== status) await pill.click();
-    }
-    const save = page.getByRole('button', { name: 'Save', exact: true });
-    if (await save.count()) {
-        await save.click();
-        await expect(toast(page, 'Training sources and methods saved').first()).toBeVisible();
-    }
-}
-
-async function openTopics(page: Page): Promise<void> {
-    await openProfessionalStandardsPage(page, 'Topics & Sub Topics', page.getByText('Nutrition', { exact: true }));
-}
-
-async function expandTopic(page: Page, topic: string): Promise<void> {
-    const expand = page.getByRole('button', { name: `Expand ${topic}`, exact: true });
-    if (await expand.count()) await expand.click();
-}
-
-async function addTopicWithSubTopic(page: Page, topic: string, subTopic: string): Promise<void> {
-    await openTopics(page);
-    await page.getByRole('button', { name: 'Add topic' }).click();
-    await page.getByRole('textbox', { name: 'Topic name', exact: true }).last().fill(topic);
-    await page.keyboard.press('Tab');
-    await expect(toast(page, 'Topic added').first()).toBeVisible();
-    await expandTopic(page, topic);
-    await page.getByText('Add sub-topic', { exact: false }).last().click();
-    await page.getByRole('textbox', { name: 'Sub-topic name', exact: true }).last().fill(subTopic);
-    await page.keyboard.press('Enter');
-    await expect(toast(page, 'Sub-topic added').first()).toBeVisible();
-}
-
-async function setSubTopicStatus(page: Page, topic: string, subTopic: string, status: 'Active' | 'Inactive'): Promise<void> {
-    await openTopics(page);
-    await expandTopic(page, topic);
-    const pill = topicStatus(page, subTopic);
-    if ((await pill.innerText()).trim() !== status) await flip(page, pill);
-    await expect(toast(page, /./).first()).toBeVisible();
-}
-
-/** Removes every test topic, sub-topics first, from this or an earlier run. */
-async function removeTestTopics(page: Page): Promise<void> {
-    await openTopics(page);
-    const topics = page.getByRole('button', { name: new RegExp(`^Expand ${AUTOMATION_PREFIX}`) });
-    for (let guard = 0; guard < 10 && (await topics.count()); guard++) await topics.first().click();
-    const items = page.getByRole('button', { name: new RegExp(`^Delete ${AUTOMATION_PREFIX}`) });
-    for (let guard = 0; guard < 20 && (await items.count()); guard++) {
-        const before = await items.count();
-        await items.last().click();
-        await answerConfirmation(page, 'Yes');
-        await expect(items).toHaveCount(before - 1);
-    }
-}
-
-/** Removes every test certificate nobody holds, from this or an earlier run. */
-async function removeTestCertificates(page: Page): Promise<void> {
-    await openProfessionalStandardsPage(page, 'Certificates', page.getByRole('button', { name: 'Add certificate' }));
-    const icons = page.getByRole('button', { name: new RegExp(`^Delete ${AUTOMATION_PREFIX}`) });
-    for (let guard = 0; guard < 10 && (await icons.count()); guard++) {
-        const before = await icons.count();
-        await icons.first().click();
-        await answerConfirmation(page, 'Yes');
-        await expect(icons).toHaveCount(before - 1);
-    }
-}
 
 // --- Sections
 async function pageAndList(page: Page): Promise<void> {
@@ -507,25 +356,6 @@ async function deleting(page: Page, name: string, topic: string): Promise<void> 
         await expect(toast(page, `"${name}" deleted`).first()).toBeVisible();
         await expect(openIcon(page, name)).toHaveCount(0);
     });
-}
-
-/** Puts back whatever a run made inactive, then deletes its templates, topics and certificates. */
-async function cleanUp(page: Page): Promise<void> {
-    await page.keyboard.press('Escape').catch(() => undefined);
-    await setSourceAndMethodStatus(page, 'Active');
-    await openTemplates(page);
-    await resetFilters(page);
-    await search(page).fill(AUTOMATION_PREFIX);
-    for (let guard = 0; guard < 20; guard++) {
-        const left = page.getByRole('button', { name: new RegExp(`^Delete ${AUTOMATION_PREFIX}`) });
-        const before = await left.count();
-        if (!before) break;
-        await left.first().click();
-        await dialog(page).getByText(/yes, delete/i).click();
-        await expect(left).toHaveCount(before - 1);
-    }
-    await removeTestTopics(page);
-    await removeTestCertificates(page);
 }
 
 // --- Test

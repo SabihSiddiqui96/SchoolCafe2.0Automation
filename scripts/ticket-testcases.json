@@ -1054,5 +1054,99 @@
         "expected": ""
       }
     ]
+  },
+  "Training Template Editor": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Training Templates → `New training template`.",
+        "expected": "The editor shows the title, `Active` pill and Save disabled with the required note."
+      },
+      {
+        "action": "Cancel with and without edits.",
+        "expected": "No popup when empty; `Discard changes?` with its text and buttons when edited, from `← Cancel` and from the side menu."
+      },
+      {
+        "action": "Enter CEU hours.",
+        "expected": "Rounds to 0.25 steps; text, over 9999 and negative values show an error and block Save."
+      },
+      {
+        "action": "Add topics from two key areas and split the hours.",
+        "expected": "`Split by key area`, per-area fields, `Total CEU hours`, `Use a single total`, and removing a topic returns to one total."
+      },
+      {
+        "action": "Use the topic, source, method, certificate and site dropdowns.",
+        "expected": "Options and helper texts match; a duplicate source shows `\"USDA\" already exists.`; new entries show the `Added` toast and are selected."
+      },
+      {
+        "action": "Add links and documents.",
+        "expected": "Address check and tidy-up, label fallback, blank rows dropped, accepted file types and removal."
+      },
+      {
+        "action": "Set Mandatory, attendee filters, colour, icon and image.",
+        "expected": "The tile preview and attendee preview follow; defaults match the key area; the image options and the file type message show."
+      },
+      {
+        "action": "Save the template.",
+        "expected": "`\"<name>\" saved`; the list row shows the icon and colour; reopening shows every value."
+      },
+      {
+        "action": "Make the certificate, source, method and a sub-topic inactive, then reopen.",
+        "expected": "`(inactive)` tags, the sub-topic note, and Save blocked until the certificate is fixed."
+      },
+      {
+        "action": "Change the status and save.",
+        "expected": "The row shows `Inactive` and `History` lists it."
+      },
+      {
+        "action": "Clean up.",
+        "expected": "Templates deleted and everything made inactive restored."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested, then stay on the `General Permissions` tab.",
+        "expected": ""
+      },
+      {
+        "action": "Find `Professional Standards`, then the page `Training Templates`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, then save and log in again.",
+        "expected": ""
+      },
+      {
+        "action": "Open `Training Templates` and open a template.",
+        "expected": "you cannot save changes"
+      },
+      {
+        "action": "Tick `View` and `Add` only, then save and log in again.",
+        "expected": "you can create a template"
+      },
+      {
+        "action": "Tick `View` and `Edit` only, then save and log in again.",
+        "expected": "you can open and edit a template"
+      },
+      {
+        "action": "Tick `Full`, then save and log in again.",
+        "expected": "everything above works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
   }
 }

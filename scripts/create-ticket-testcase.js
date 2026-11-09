@@ -126,7 +126,7 @@ const linkedId = (url) => Number(String(url).split('/').pop());
 
 /** The QA task the cases are linked to (child of the PBI). */
 async function findQaTask() {
-    const id = Number(process.env.AZDO_QA_TASK || '121543');
+    const id = Number(process.env.AZDO_QA_TASK || '122799');
     const task = await api('GET', `${witUrl}/${id}?api-version=${API_VERSION}`);
     return { id, title: task.fields?.['System.Title'] || '' };
 }

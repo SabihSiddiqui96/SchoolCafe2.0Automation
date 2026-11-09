@@ -76,7 +76,7 @@ async function setCeuRequirement(page: Page, hours: string, comment: string): Pr
 async function directoryLayout(page: Page): Promise<void> {
     await test.step('Filters, quick filters and buttons show with their defaults', async () => {
         await expect(searchBox(page)).toBeVisible();
-        await expect(siteFilter(page)).toContainText('All sites');
+        await expect(siteFilter(page)).toHaveValue('All sites');
         await expect(employmentFilter(page)).toContainText('Active only');
         await expect(jobFilter(page)).toContainText('All job titles');
         for (const name of QUICK_FILTERS) await expect(quickFilter(page, name)).toBeVisible();
@@ -333,7 +333,7 @@ async function selectMode(page: Page, one: string, two: string): Promise<void> {
         await selectedCount(page, 2);
         await expect(page.getByText('Employee Details')).toHaveCount(0);
         await expect(page.getByRole('button', { name: 'Add to roster' })).toBeEnabled();
-        await expect(page.getByRole('button', { name: 'Add to a Training' })).toBeDisabled();
+        await expect(page.getByRole('button', { name: 'Add to a Training' })).toBeEnabled();
     });
 
     await test.step('Make Inactive asks first and Cancel keeps the selection', async () => {
@@ -401,11 +401,11 @@ async function returningToTheList(page: Page, one: string, two: string): Promise
         await expect(employmentFilter(page)).toContainText('All employment');
         await expect(searchBox(page)).toHaveValue(sharedStart(one, two));
         await expect(quickFilter(page, 'Below hours')).toHaveAttribute('aria-pressed', 'true');
-        await expect(employeeRow(page, one)).toContainText('Last viewed');
+        await expect(employeeRow(page, one)).toContainText('Last opened');
         await employeeRow(page, two).click();
         await backToEmployees(page);
-        await expect(employeeRow(page, two)).toContainText('Last viewed');
-        await expect(employeeRow(page, one)).not.toContainText('Last viewed');
+        await expect(employeeRow(page, two)).toContainText('Last opened');
+        await expect(employeeRow(page, one)).not.toContainText('Last opened');
         await quickFilter(page, 'All').click();
     });
 

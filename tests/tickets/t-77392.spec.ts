@@ -270,7 +270,7 @@ async function exceptions(page: Page, t: Record<'mandatory' | 'plain' | 'limited
     await test.step('An inactive certificate puts a warning on its template and marks the dropdown', async () => {
         await setCertificateStatus(page, certificate, 'Inactive');
         await openTemplates(page);
-        await row(page, t.mandatory).getByLabel(/needs attention/i).hover();
+        await row(page, t.mandatory).getByLabel(/^Needs attention:/).hover();
         await expect(tooltip(page)).toContainText('Needs attention: Inactive certificate');
         await openAdvanced(page);
         await dropdown(page, 'Certificate').click();
@@ -281,14 +281,14 @@ async function exceptions(page: Page, t: Record<'mandatory' | 'plain' | 'limited
     await test.step('An inactive source and method add their own reasons', async () => {
         await setSourceAndMethodStatus(page, 'Inactive');
         await openTemplates(page);
-        await row(page, t.limited).getByLabel(/needs attention/i).hover();
+        await row(page, t.limited).getByLabel(/^Needs attention:/).hover();
         await expect(tooltip(page)).toContainText('Needs attention: Inactive training source, Inactive training method');
     });
 
     await test.step('An inactive sub-topic adds a reason and the Sub-topic dropdown marks it', async () => {
         await setSubTopicStatus(page, subTopicOwner, t.subTopic, 'Inactive');
         await openTemplates(page);
-        await row(page, t.plain).getByLabel(/needs attention/i).hover();
+        await row(page, t.plain).getByLabel(/^Needs attention:/).hover();
         await expect(tooltip(page)).toContainText('Needs attention: Inactive sub-topic');
         await openAdvanced(page);
         await dropdown(page, 'Sub-topic').click();

@@ -234,7 +234,7 @@ async function certificateHeldByEmployee(page: Page, held: string, employee: str
         await dialog(page).getByRole('button', { name: 'Issue', exact: true }).click();
         await saveEmployee(page);
         await expect(page.getByText(held, { exact: true })).toBeVisible();
-        await expect(page.getByText(/Issued \d{2}\/\d{2}\/\d{4}/)).toBeVisible();
+        await expect(page.getByRole('cell', { name: /^\d{2}\/\d{2}\/\d{4}$/ })).toBeVisible();
         await expect(page.getByText(/(Expires|Expiring) \d{2}\/\d{2}\/\d{4}/)).toBeVisible();
         await backToEmployees(page);
     });

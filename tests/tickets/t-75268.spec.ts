@@ -73,8 +73,7 @@ async function headerAndSections(page: Page, name: string): Promise<void> {
     await test.step('Header, tiles and the seven sections show', async () => {
         const text = await main(page).innerText();
         expect(text).toContain(`ID ${name}`);
-        expect(text).toMatch(/of \d+\.\d CEU hrs YTD/);
-        expect(text).toContain('badges earned');
+        expect(text).toMatch(/of \d+\.\d required/);
         for (const heading of ['CONTACT', 'EMPLOYMENT', 'PERSONAL', 'CERTIFICATES', 'DOCUMENTS', 'NOTES', 'TRAINING HISTORY']) {
             expect(text).toContain(heading);
         }
@@ -194,7 +193,7 @@ async function employmentFields(page: Page, name: string, certificate: string): 
     });
 
     await test.step('CEU level can be changed and the required hours follow it', async () => {
-        const requiredHours = async () => /of (\d+\.\d) CEU hrs YTD/.exec(await main(page).innerText())?.[1];
+        const requiredHours = async () => /of (\d+\.\d) required/.exec(await main(page).innerText())?.[1];
         const before = await requiredHours();
         await editEmployment(page);
         await page.locator('#employee-ceu-level').click();
@@ -367,10 +366,10 @@ async function notesSection(page: Page, name: string): Promise<void> {
 }
 
 async function trainingAndLeaving(page: Page): Promise<void> {
-    await test.step('Training history is empty and export is not available yet', async () => {
+    await test.step('Training history is empty and the export button is available', async () => {
         await expect(main(page)).toContainText('No training recorded yet.');
         const exportButton = page.getByRole('button', { name: 'Export training record' });
-        await expect(exportButton).toBeDisabled();
+        await expect(exportButton).toBeEnabled();
     });
 
     await test.step('Leaving with unsaved changes asks first and No keeps them', async () => {

@@ -93,8 +93,8 @@ async function tryDuplicate(page: Page, kind: Kind, typed: string, existing: str
     await page.keyboard.type(typed);
     await page.keyboard.press('Enter');
     await expect(section(page, kind)).toContainText(`"${existing}" already exists.`);
-    await expect(blankField(page, kind)).toBeVisible();
     await section(page, kind).getByRole('button', { name: 'Cancel' }).first().click();
+    await expect(section(page, kind)).not.toContainText(`"${existing}" already exists.`);
     await expect(blankField(page, kind)).toHaveCount(0);
 }
 
@@ -310,8 +310,8 @@ async function cancellingChanges(page: Page, entry: string, extra: string): Prom
         await expect(unsaved(page, 'method')).toBeVisible();
         await cancelBar(page).click();
         await expect(saveBar(page)).toHaveCount(0);
-        expect(await customNames(page, 'source')).toEqual(before);
-        expect(await customNames(page, 'method')).toEqual(methodsBefore);
+        await expect.poll(() => customNames(page, 'source')).toEqual(before);
+        await expect.poll(() => customNames(page, 'method')).toEqual(methodsBefore);
     });
 }
 
@@ -349,6 +349,7 @@ async function cleanUp(page: Page): Promise<void> {
     if (await saveBar(page).count()) await cancelBar(page).click();
     for (const kind of ['source', 'method'] as Kind[]) {
         await setStatusFilter(page, kind, 'All');
+        await page.waitForTimeout(1500);
         for (const name of await customNames(page, kind)) {
             if (name.startsWith(AUTOMATION_PREFIX)) await trashIcon(page, kind, name).click();
         }

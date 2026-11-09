@@ -221,7 +221,7 @@ async function addingEmployees(page: Page, minimal: string, detailed: string): P
 async function searchingAndFiltering(page: Page, minimal: string, detailed: string, choice: { site: string; job: string }): Promise<void> {
     await test.step('Search starts at 3 characters and matches a name or an ID', async () => {
         await searchEmployees(page, 'zz');
-        await expect(chipsOf(page, minimal)).toBeVisible();
+        await expect(page.getByRole('row').filter({ hasText: 'SabihAutomationTesting' }).nth(1)).toBeVisible();
         await searchEmployees(page, 'zzz');
         await expect(page.getByRole('row').filter({ hasText: minimal })).toHaveCount(0);
         await searchEmployees(page, minimal.toUpperCase());

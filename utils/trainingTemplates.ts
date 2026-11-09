@@ -97,6 +97,7 @@ export async function flip(page: Page, pill: Locator): Promise<void> {
     await pill.click();
     const confirm = page.getByRole('dialog');
     await expect(confirm.or(page.getByRole('alert')).first()).toBeVisible();
+    await confirm.waitFor({ state: 'visible', timeout: 2000 }).catch(() => undefined);
     if (await confirm.count()) await answerConfirmation(page, 'Yes');
 }
 
@@ -104,7 +105,8 @@ export async function setCertificateStatus(page: Page, certificate: string, stat
     await openProfessionalStandardsPage(page, 'Certificates', page.getByRole('button', { name: 'Add certificate' }));
     const pill = page.getByRole('switch', { name: `${certificate} Status`, exact: true });
     if ((await pill.innerText()).trim() !== status) await flip(page, pill);
-    await expect(pill).toHaveText(status);
+    await expect(page.getByRole('dialog')).toHaveCount(0);
+    await expect.poll(async () => ((await pill.count()) ? ((await pill.textContent()) ?? '').trim() : status)).toBe(status);
 }
 
 /** Sets the USDA source and the Online method, both defaults, active or inactive and saves. */

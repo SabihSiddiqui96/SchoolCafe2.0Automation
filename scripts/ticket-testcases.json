@@ -1148,5 +1148,323 @@
         "expected": ""
       }
     ]
+  },
+  "Record Training": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Record Training.",
+        "expected": "The title, sites line, `Search trainings`, `Advanced search`, Grid and List toggle (Grid selected) and `Record other training` show; the button tooltip reads `For training that isn't on the list`."
+      },
+      {
+        "action": "Click `Record other training`, then `Cancel`.",
+        "expected": "The `Record other training` screen opens and Cancel returns to the list."
+      },
+      {
+        "action": "Check the tiles.",
+        "expected": "Each tile names its CEU hours, `Mandatory` and `Awards a certificate`."
+      },
+      {
+        "action": "Switch to List and back to Grid.",
+        "expected": "List shows the same trainings in the same order with the hours."
+      },
+      {
+        "action": "Search by name in lower case, upper case and with spaces around it.",
+        "expected": "The list filters as you type and ignores case and spaces."
+      },
+      {
+        "action": "Search for text that matches nothing, then use the link in the message.",
+        "expected": "`No trainings match.` and `Not on the list? Record other training` show; the link opens the `Record other training` screen."
+      },
+      {
+        "action": "Open `Advanced search` and use `Under 1`, `1 to 2`, `Over 2` and `Any`.",
+        "expected": "Each option filters the trainings by their total hours and the button shows the filter count."
+      },
+      {
+        "action": "Use `Mandatory`, `Not mandatory` and the `Certificate` dropdown.",
+        "expected": "Each filters correctly: awards a certificate, no certificate and a named certificate."
+      },
+      {
+        "action": "Use `Sort by`.",
+        "expected": "`Hours: high to low`, `Hours: low to high` and `Name A to Z` sort the list correctly."
+      },
+      {
+        "action": "Set a filter and a search, close the panel, then click `Clear filters`.",
+        "expected": "`Filters applied: showing N of N trainings` shows when closed; clearing keeps the search text."
+      },
+      {
+        "action": "Switch between Grid and List with a filter set.",
+        "expected": "The filter stays."
+      },
+      {
+        "action": "Make a template's certificate inactive and open the template.",
+        "expected": "The tile says `Can't be recorded until fixed: Inactive certificate`; opening it shows `This training can't be recorded`; the tile is clean again after the certificate is restored."
+      },
+      {
+        "action": "Open a training, cancel, then open another.",
+        "expected": "The last opened marker moves to the second training."
+      },
+      {
+        "action": "Use the keyboard.",
+        "expected": "Enter and Space open a training."
+      },
+      {
+        "action": "Clean up.",
+        "expected": "Test templates deleted and the certificate removed."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested.",
+        "expected": ""
+      },
+      {
+        "action": "Click the `Special Permissions` tab, find `Professional Standards`, then the permission for `Record other training`.",
+        "expected": ""
+      },
+      {
+        "action": "Untick it, then save and log in again.",
+        "expected": "the top right button and the `Not on the list? Record other training` link are gone"
+      },
+      {
+        "action": "Tick it, then save and log in again.",
+        "expected": "both are back and open the `Record other training` screen"
+      },
+      {
+        "action": "Click the `General Permissions` tab, find `Professional Standards`, then the page `Record Training`, and tick only `View`, then save and log in again.",
+        "expected": "you can open `Record Training` and a training"
+      },
+      {
+        "action": "Untick `View`, then save and log in again.",
+        "expected": "`Record Training` is not in the menu"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
+  },
+  "Record from a template": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Record Training → a mandatory template.",
+        "expected": "`Record from a template` shows the name, `Mandatory`, `Step 1 of 2`, `Edit template`, CEU hours, key areas, the certificate and `Print sign-in sheet`."
+      },
+      {
+        "action": "Check the date and location.",
+        "expected": "Today's date with `- Today` and its helper; `Unspecified` location with its helper; past dates allowed; future and blank dates block Continue."
+      },
+      {
+        "action": "Open the print sign-in sheet.",
+        "expected": "The title checkbox, the sheet heading, `Date:` and `Location:` lines; unticking the checkbox removes the name."
+      },
+      {
+        "action": "Cancel with nothing entered.",
+        "expected": "Returns to `Record Training` with no popup."
+      },
+      {
+        "action": "Continue to Step 2.",
+        "expected": "The attendee heading, the empty list message, `Add people`, sign-in sheet, documents and notes show; the record button is disabled with its hint; no `Edit template`."
+      },
+      {
+        "action": "Type a note and cancel.",
+        "expected": "`Discard changes?` with its text; Keep editing keeps the note; Discard clears it."
+      },
+      {
+        "action": "Search for people.",
+        "expected": "No-match text; an added person shows `Added` and is not offered again."
+      },
+      {
+        "action": "Mark an attendee not attended, then remove them.",
+        "expected": "The count and the record button follow; `Remove` clears the list."
+      },
+      {
+        "action": "Open Advanced search and cancel.",
+        "expected": "`Add attendees` opens and nothing is added."
+      },
+      {
+        "action": "Add notes and files.",
+        "expected": "Notes stop at 1000; the sign-in sheet takes a photo and refuses a text file; documents take a text file."
+      },
+      {
+        "action": "Click Back, then Continue.",
+        "expected": "The date, attendees, notes and files are kept."
+      },
+      {
+        "action": "Record an event with two attendees, one marked not attended.",
+        "expected": "The toast `Training Event recorded for <name> (1 attended)`, a return to `Record Training`, and a clean next recording."
+      },
+      {
+        "action": "Open the event on the Events page and its History.",
+        "expected": "From a training template, the attached files, the note and the attended person only; `Training event recorded` in History."
+      },
+      {
+        "action": "Open the attendee.",
+        "expected": "The event shows in their training history."
+      },
+      {
+        "action": "Make the certificate inactive and open the template.",
+        "expected": "`This training can't be recorded` with the cause; Continue disabled; Print and Edit template available; Edit template then Cancel returns to the notice; the template records again once the certificate is active."
+      },
+      {
+        "action": "Use the keyboard.",
+        "expected": "Enter and Space open key areas and toggle attendees; `aria-pressed` follows."
+      },
+      {
+        "action": "Clean up.",
+        "expected": "Test templates, certificate and employees removed or made inactive."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested.",
+        "expected": ""
+      },
+      {
+        "action": "Stay on the `General Permissions` tab, find `Professional Standards`, then the page `Record Training`.",
+        "expected": ""
+      },
+      {
+        "action": "Tick only `View`, then save and log in again.",
+        "expected": "you can open a template and go through both steps"
+      },
+      {
+        "action": "Find the page `Training Templates` and untick `Edit`, then save and log in again.",
+        "expected": "`Edit template` is not in the Step 1 header"
+      },
+      {
+        "action": "Tick `Edit` again, then save and log in again.",
+        "expected": "`Edit template` is back"
+      },
+      {
+        "action": "Untick `View` on `Record Training`, then save and log in again.",
+        "expected": "`Record Training` is not in the menu"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
+  },
+  "Record Other Training": {
+    "automated": [
+      {
+        "action": "Log into SchoolCafe 2.0.",
+        "expected": "Signed in; dashboard loads."
+      },
+      {
+        "action": "Open Professional Standards → Record Training → `Record other training`.",
+        "expected": "The blank form shows the basics, topics, content and source, resources and certification cards, today's date, `Unspecified` location and the required-fields hint with Continue disabled."
+      },
+      {
+        "action": "Check the dropdown choices and the date.",
+        "expected": "Location, source, method and certificate offer the right choices; past dates are allowed and a future date is blocked."
+      },
+      {
+        "action": "Enter invalid and valid CEU hours.",
+        "expected": "Text, negative and over 9999 values show their message and block Continue; valid and blank hours show in the header."
+      },
+      {
+        "action": "Add and remove topics.",
+        "expected": "A topic is required; picked topics show by key area, cannot be picked twice and can be removed."
+      },
+      {
+        "action": "Add topics from two key areas and split the hours.",
+        "expected": "`Split by key area`, per-area fields and the running total; `Use a single total` returns the sum."
+      },
+      {
+        "action": "Add related links.",
+        "expected": "An empty row is ignored; an invalid address shows its message and blocks Continue."
+      },
+      {
+        "action": "Add a new training source and method.",
+        "expected": "A duplicate shows `already exists`; the new entry is added, selected and kept after cancelling."
+      },
+      {
+        "action": "Cancel with changes.",
+        "expected": "`Discard changes?` with its text; Keep editing keeps the entries; Discard returns with a blank next form; Step 2 asks too."
+      },
+      {
+        "action": "Continue to Step 2.",
+        "expected": "The event name, hours, empty list message, sign-in sheet, documents and notes show; the sign-in sheet carries the event name; no `Mandatory` or `Edit template`."
+      },
+      {
+        "action": "Add attendees and mark one not attended.",
+        "expected": "The count and the record button follow; Advanced search opens and cancels."
+      },
+      {
+        "action": "Click Back, change the hours, then Continue.",
+        "expected": "Step 1 entries, attendees and the note are kept."
+      },
+      {
+        "action": "Record an event with a certificate, links, files and a note.",
+        "expected": "The toast, a return to `Record Training`, and a blank next form."
+      },
+      {
+        "action": "Open the event on the Events page, its History and the attendee.",
+        "expected": "Listed as `Other training` with its details and files; `Training event recorded` in History; the Event source filter finds it; the attendee has the certificate and the training."
+      },
+      {
+        "action": "Use the keyboard.",
+        "expected": "Step 1 works from the keyboard, the discard popup opens and Continue works."
+      },
+      {
+        "action": "Clean up.",
+        "expected": "Test sources, methods, certificate, topics and employees removed or made inactive."
+      }
+    ],
+    "manual": [
+      {
+        "action": "Log into SchoolCafe 2.0 as an admin user.",
+        "expected": ""
+      },
+      {
+        "action": "Click `Settings`, then click `Roles and Permissions`.",
+        "expected": ""
+      },
+      {
+        "action": "Click the pencil on the role being tested.",
+        "expected": ""
+      },
+      {
+        "action": "Click the `Special Permissions` tab, find `Professional Standards`, then the permission for `Record other training`.",
+        "expected": ""
+      },
+      {
+        "action": "Untick it, then save and log in again.",
+        "expected": "`Record other training` is not on `Record Training` and the screen cannot be opened"
+      },
+      {
+        "action": "Tick it, then save and log in again.",
+        "expected": "the button is back and the full flow works"
+      },
+      {
+        "action": "Set the role back to how it was.",
+        "expected": ""
+      }
+    ]
   }
 }

@@ -219,8 +219,21 @@ export async function cleanUp(page: Page): Promise<void> {
         if (!before) break;
         await left.first().click();
         await dialog(page).getByText(/yes, delete/i).click();
-        await expect(left).toHaveCount(before - 1);
+        await expect.poll(() => left.count()).toBeLessThan(before);
     }
     await removeTestTopics(page);
     await removeTestCertificates(page);
+}
+
+/** A template a recorded event used cannot be deleted, so the cleanup leaves it inactive and off Record Training. */
+export async function deactivateTestTemplates(page: Page): Promise<void> {
+    await openTemplates(page);
+    await resetFilters(page);
+    await search(page).fill(AUTOMATION_PREFIX);
+    const active = page.getByRole('switch', { name: new RegExp(`^${AUTOMATION_PREFIX}\d+ status$`) }).and(page.locator('[aria-checked="true"]'));
+    for (let guard = 0; guard < 20 && (await active.count()); guard++) {
+        const before = await active.count();
+        await active.first().click();
+        await expect(active).toHaveCount(before - 1);
+    }
 }

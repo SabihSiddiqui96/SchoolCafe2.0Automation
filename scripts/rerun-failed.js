@@ -81,7 +81,7 @@ async function fetchBuild(org, project, id, pat) {
   let total = 0;
   const failedNames = [];
   for (const run of runs) {
-    if (typeof run.totalTests === 'number') total += run.totalTests;
+    if (typeof run.totalTests === 'number') total += run.totalTests - (run.notApplicableTests || 0);
     const res = await get(`${base}/_apis/test/Runs/${run.id}/results?outcomes=Failed&api-version=${API_VERSION}`, pat);
     if (res.status !== 200) continue;
     for (const r of ((JSON.parse(res.body).value) || [])) if (r.testCaseTitle) failedNames.push(r.testCaseTitle);

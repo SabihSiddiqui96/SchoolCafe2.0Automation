@@ -106,7 +106,7 @@ async function latestRun(pat) {
   if (!runs.length) return null;
   const r = runs[0];
   const buildId = (r.buildConfiguration && r.buildConfiguration.id) || (r.build && r.build.id);
-  return { runId: r.id, buildId: String(buildId), completed: r.completedDate, total: r.totalTests, failed: r.unanalyzedTests };
+  return { runId: r.id, buildId: String(buildId), completed: r.completedDate, total: r.totalTests - (r.notApplicableTests || 0), failed: r.unanalyzedTests };
 }
 
 function fallbackAlreadyPosted(buildId) {
